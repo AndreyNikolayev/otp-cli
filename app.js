@@ -7,6 +7,7 @@ spinner.start();
 
 const login = require('./app/login');
 const parseAccount = require('./app/parse-account');
+const send = require('./app/send');
 
 const command = process.argv[2];
 if (!command) {
@@ -14,18 +15,22 @@ if (!command) {
 }
 
 async function run () {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
   await page.goto(process.env.BANK_URL);
 
   await login(page);
   var accounts = await parseAccount(page);
 
-  spinner.stop(true);
-
   switch (command) {
     case 'balance':
+      spinner.stop(true);
       accounts.forEach(account => console.log(account.balanceDescription));
+      break;
+    case 'send':
+      var result = await send(page, accounts, process.argv[3]);
+      spinner.stop(true);
+      console.log(result);
       break;
     default:
       console.log(`Command ${command} not found.`);
