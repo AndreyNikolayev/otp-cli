@@ -8,6 +8,7 @@ spinner.start();
 const login = require('./app/login');
 const parseAccount = require('./app/parse-account');
 const send = require('./app/send');
+const sell = require('./app/sell');
 
 const command = process.argv[2];
 if (!command) {
@@ -32,6 +33,11 @@ async function run () {
       spinner.stop(true);
       console.log(result);
       break;
+      case 'sell':
+        var result = await sell(page, accounts, process.argv[3], process.argv[4]);
+        spinner.stop(true);
+        console.log(result);
+        break;
     default:
       console.log(`Command ${command} not found.`);
   }

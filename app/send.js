@@ -1,5 +1,3 @@
-var Account = require('./data/account');
-
 async function send(page, accounts, amount) {
   const targetAccount = accounts.find((account) => account.currency === 'UAH' && account.paymentLink);
 
