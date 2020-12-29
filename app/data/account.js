@@ -3,7 +3,7 @@ class Account {
     this.id = id;
     this.number = number;
     this.currency = currency;
-    this.balanceAmount = balanceAmount;
+    this.balanceAmount = +balanceAmount;
     this.paymentLink = paymentLink;
   }
 

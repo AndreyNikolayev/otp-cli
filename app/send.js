@@ -2,18 +2,15 @@ async function send(page, accounts, amount) {
   const targetAccount = accounts.find((account) => account.currency === 'UAH' && account.paymentLink);
 
   if(targetAccount === null) {
-    console.log('Account for payment not found');
-    return;
+    return 'Account for payment not found';
   }
 
   if(isNaN(amount)) {
-    console.log('Amount must be a valid number');
-    return;
+    return 'Amount must be a valid number';
   }
 
   if(targetAccount.balanceAmount < amount) {
-    console.log('Amount is less than the account balance.');
-    return;
+    return 'Amount is less than the account balance.';
   }
 
   await page.goto(targetAccount.paymentLink);

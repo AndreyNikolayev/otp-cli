@@ -2,30 +2,25 @@ async function sell(page, accounts, amount, minRate) {
   const targetAccount = accounts.find((account) => account.currency === 'USD' && !account.isTransit);
 
   if(targetAccount === null) {
-    console.log('Account for payment not found');
-    return;
+    return 'Account for payment not found';
   }
 
   if(isNaN(amount)) {
-    console.log('Amount must be a valid number');
-    return;
+    return 'Amount must be a valid number';
   }
 
   if(minRate && isNaN(minRate)) {
-    console.log('Min Rate must be a valid number');
-    return;
+    return 'Min Rate must be a valid number';
   }
 
   if(targetAccount.balanceAmount < amount) {
-    console.log('Amount is less than the account balance.');
-    return;
+    return 'Amount is less than the account balance.';
   }
 
   var uahAccount = accounts.find((account) => account.currency === 'UAH');
 
   if(uahAccount == null) {
-    console.log('UAH account not found');
-    return;
+    return 'UAH account not found';
   }
 
   await page.goto(process.env.BANK_SELL_URL);
