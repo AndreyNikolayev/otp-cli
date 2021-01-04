@@ -21,7 +21,7 @@ async function parseSingleAccount(elementHandler) {
     paymentLink = null;
   }
 
-  return new Account(id, number,currency, accountBalance, process.env.BANK_URL + '/' + paymentLink);
+  return new Account(id, number,currency, accountBalance.replace(/\s/g,''), process.env.BANK_URL + '/' + paymentLink);
 }
 
 module.exports = parseAccount;
