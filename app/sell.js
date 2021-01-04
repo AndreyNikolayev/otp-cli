@@ -35,7 +35,8 @@ async function sell(page, accounts, amount, minRate) {
 
   await page.$eval('input[name=managername]', (el, value) => el.value = value, process.env.NAME);
   await page.$eval('input[name=managerphone]', (el, value) => el.value = value, process.env.PHONE_NUMBER);
-  await page.$eval('input[name=amountvisuali]', (el, value) => el.value = value, amount);
+  const amountElement = await page.$('input[name=amountvisuali]');
+  await amountElement.type(amount);
   await page.$eval('#note', (el, value) => el.value = value, 'Продаж виручки');
 
   if(minRate) {
