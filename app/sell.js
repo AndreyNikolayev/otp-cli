@@ -14,7 +14,7 @@ async function sell(page, accounts, amount, minRate) {
   }
 
   if(targetAccount.balanceAmount < amount) {
-    return 'Amount is less than the account balance.';
+    return 'Amount must be less than the account balance.';
   }
 
   var uahAccount = accounts.find((account) => account.currency === 'UAH');

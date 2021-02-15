@@ -19,7 +19,7 @@ async function login(page) {
 
   await page.$eval('input[name=keyIit_password]', (el, keyPassword) => el.value = keyPassword, process.env.KEY_PASSWORD);
 
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(3000);
 
   await page.$eval('#enter_btn', btn => btn.click());
 
