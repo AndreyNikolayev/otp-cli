@@ -9,6 +9,7 @@ const login = require('./app/login');
 const parseAccount = require('./app/parse-account');
 const send = require('./app/send');
 const sell = require('./app/sell');
+const tax = require('./app/tax');
 
 const command = process.argv[2];
 if (!command) {
@@ -35,6 +36,11 @@ async function run () {
       break;
       case 'sell':
         var result = await sell(page, accounts, process.argv[3], process.argv[4]);
+        spinner.stop(true);
+        console.log(result);
+        break;
+      case 'tax': 
+        var result = await tax(page, accounts, process.argv[3]);
         spinner.stop(true);
         console.log(result);
         break;

@@ -14,14 +14,19 @@ async function parseSingleAccount(elementHandler) {
 
   var accountBalance = await (await accountColumnts[7].$('div')).evaluate(element => element.textContent.trim());
 
-  var paymentLink = await (await accountColumnts[8].$('a')).evaluate(element => element && element.getAttribute("href") || null);
+  var linkHandles = await accountColumnts[8].$$('a');
 
-  if(paymentLink && paymentLink.indexOf('NationalTransfersShow') === -1)
-  {
-    paymentLink = null;
-  }
+  var links = await Promise.all(linkHandles.map(async elementHandle => 
+    await elementHandle.evaluate(async element => await element && element.getAttribute("href") || null)
+  ));
 
-  return new Account(id, number,currency, accountBalance.replace(/\s/g,''), process.env.BANK_URL + '/' + paymentLink);
+  var fullLinkBuilder = (linkTextSearch) => {
+    var link = links.find(p => p.indexOf(linkTextSearch) !== -1) || null;
+    return link && process.env.BANK_URL + '/' + link;
+  };
+
+  return new Account(id, number,currency, accountBalance.replace(/\s/g,''),
+  fullLinkBuilder('NationalTransfersShow'), fullLinkBuilder('StatementShow'));
 }
 
 module.exports = parseAccount;

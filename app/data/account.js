@@ -1,10 +1,11 @@
 class Account {
-  constructor(id, number, currency, balanceAmount, paymentLink) {
+  constructor(id, number, currency, balanceAmount, paymentLink, statementLink) {
     this.id = id;
     this.number = number;
     this.currency = currency;
     this.balanceAmount = +balanceAmount;
     this.paymentLink = paymentLink;
+    this.statementLink = statementLink;
   }
 
   get isTransit() {
