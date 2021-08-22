@@ -9,15 +9,15 @@ async function tax(page, accounts, period) {
 
   var targetAccount = accounts.find(p => !p.isTransit && p.currency === targetCurrency);
 
-  if(!targetAccount) {
+  if (!targetAccount) {
     return 'USD account is not found';
   }
 
-  if(!targetAccount.statementLink) {
+  if (!targetAccount.statementLink) {
     return 'Link to account statement page is not found';
   }
 
-  var targetPeriod = new TaxPeriod(period ? period: getPreviousPeriod());
+  var targetPeriod = new TaxPeriod(period ? period : getPreviousPeriod());
 
   var cookies = await page.cookies();
 
@@ -27,7 +27,7 @@ async function tax(page, accounts, period) {
     var lineParts = line.trim().split(/(\s+)/).filter(p => p.trim());
 
     return {
-      amount: (+lineParts[4])/100,
+      amount: (+lineParts[4]) / 100,
       date: getDateFromFileString(lineParts[lineParts.length - 1])
     }
   });
@@ -44,7 +44,7 @@ async function tax(page, accounts, period) {
 
   const yearTotal = Number(amountsWithExchangeRates.reduce((a, b) => a + b.nationalCurrencyAmount, 0).toFixed(2));
   const quarterTotal = Number(amountsWithExchangeRates.filter(p => p.date.getTime() >= targetPeriod.quarterStartDate.getTime())
-  .reduce((a, b) => a + b.nationalCurrencyAmount, 0).toFixed(2));
+    .reduce((a, b) => a + b.nationalCurrencyAmount, 0).toFixed(2));
 
   const yearTax = Number((yearTotal * 0.05).toFixed(2));
   const quarterTax = Number((quarterTotal * 0.05).toFixed(2));
@@ -73,7 +73,7 @@ async function getFileResponse(accountId, targetPeriod, cookies) {
     dateFrom: getFormattedDateString(targetPeriod.yearStartDate),
     dateTill: getFormattedDateString(targetPeriod.quarterEndDate),
     daysCount: 1,
-    contractorId: '', 
+    contractorId: '',
     fileName: '',
     accountId: accountId,
     revertDateOrder: false,
@@ -83,9 +83,9 @@ async function getFileResponse(accountId, targetPeriod, cookies) {
     showRevaluation: false
   }
 
-  for(var propertyName in options) {
+  for (var propertyName in options) {
     form.append(propertyName, options[propertyName].toString());
- }
+  }
 
 
   const response = await axios({
@@ -93,8 +93,8 @@ async function getFileResponse(accountId, targetPeriod, cookies) {
     url: 'https://otpay.com.ua/ifobsClientSMB/StatementSaveFile.action',
     data: form,
     headers: {
-          'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
-          'Cookie': cookies.map(p => `${p.name}=${p.value};`).join(' ')
+      'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
+      'Cookie': cookies.map(p => `${p.name}=${p.value};`).join(' ')
     }
   });
 
@@ -117,15 +117,15 @@ function getPreviousPeriod() {
   var year = date.getFullYear();
   var month = date.getMonth() + 1;
 
-  if(month <= 3) {
+  if (month <= 3) {
     return `${year - 1}/4`;
   };
 
-  if(month <= 6) {
+  if (month <= 6) {
     return `${year}/1`;
   }
 
-  if(month <= 9) {
+  if (month <= 9) {
     return `${year}/2`;
   }
 

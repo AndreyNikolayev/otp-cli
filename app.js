@@ -1,9 +1,8 @@
-require('dotenv').config({path:__dirname+'/.env'})
+require('dotenv').config({ path: __dirname + '/.env' })
 const puppeteer = require('puppeteer');
 const Spinner = require('cli-spinner').Spinner;
 const spinner = new Spinner('processing.. %s');
 spinner.setSpinnerString('|/-\\');
-spinner.start();
 
 const login = require('./app/login');
 const parseAccount = require('./app/parse-account');
@@ -13,10 +12,14 @@ const tax = require('./app/tax');
 
 const command = process.argv[2];
 if (!command) {
-    throw "Please provide command as the first argument";
+  spinner.stop(true);
+  console.log("Please provide command as the first argument");
+  return;
 }
 
-async function run () {
+spinner.start();
+
+async function run() {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(process.env.BANK_URL);
@@ -24,32 +27,25 @@ async function run () {
   await login(page);
   var accounts = await parseAccount(page);
 
-  switch (command) {
-    case 'balance':
-      spinner.stop(true);
-      accounts.forEach(account => console.log(account.balanceDescription));
-      break;
-    case 'send':
-      var result = await send(page, accounts, process.argv[3]);
-      spinner.stop(true);
-      console.log(result);
-      break;
-      case 'sell':
-        var result = await sell(page, accounts, process.argv[3], process.argv[4]);
-        spinner.stop(true);
-        console.log(result);
-        break;
-      case 'tax': 
-        var result = await tax(page, accounts, process.argv[3]);
-        spinner.stop(true);
-        console.log(result);
-        break;
-    default:
-      console.log(`Command ${command} not found.`);
+  var standardCommands = {
+    send: async () => await send(page, accounts, process.argv[3]),
+    sell: async () => await sell(page, accounts, process.argv[3], process.argv[4]),
+    tax: async () => await tax(page, accounts, process.argv[3])
+  };
+
+  if(command === 'balance') {
+    spinner.stop(true);
+    accounts.forEach(account => console.log(account.balanceDescription));
+  } else if(standardCommands[command]) {
+    const result = await standardCommands[command]();
+    spinner.stop(true);
+    console.log(result);
+  } else {
+    console.log(`Command ${command} not found.`);
   }
 
   browser.close();
 }
 
 
-run().catch((err)=> console.log(err));
+run().catch((err) => console.log(err));
