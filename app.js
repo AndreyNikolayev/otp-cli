@@ -13,7 +13,7 @@ if(command === 'init') {
 const fs = require('fs');
 
 if (!fs.existsSync(__dirname + '/.env')) {
-  console.log('Configuration is not set. Please user "otp init" command first.');
+  console.log('Configuration is not set. Please user "otp-bank init" command first.');
   return;
 }
 
