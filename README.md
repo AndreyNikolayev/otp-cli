@@ -19,7 +19,7 @@ Running either of the above commands downloads a script and runs it. The script 
 alias otp-bank="sh $HOME/.otp-cli/otp.sh"
 ```
 
-## USAGE
+## Usage
 
 ### Initial configuration
 
@@ -44,5 +44,9 @@ otp-bank 2021/3
 ```
 In the example above taxes will be calculated for the 3rd quarter of the 2021 year along with the income and tax for the all 3 quarters together.
 
+## Deleting
 
-
+If you are not longer interested in using the program, use next command to wipe out all stored information
+```sh
+rm -rf ~/.otp-cli
+```
