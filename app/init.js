@@ -7,7 +7,7 @@ function init() {
   const otpPassword = readlineSync.question('Otp password: ', { hideEchoBack: true});
   const otpFileLocation = readlineSync.question('Otp key full path: ', );
 
-  if(!otpFileLocation.split('.').pop() != 'dat') {
+  if(otpFileLocation.split('.').pop() != 'dat') {
     console.log('Key file must have dat extension');
     return;
   }
