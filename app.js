@@ -1,4 +1,29 @@
-require('dotenv').config({ path: __dirname + '/.env' })
+const command = process.argv[2];
+if (!command) {
+  console.log("Please provide command as the first argument");
+  return;
+}
+
+if(command === 'init') {
+  const init = require('./app/init');
+  init();
+  return;
+}
+
+const fs = require('fs');
+
+if (!fs.existsSync(__dirname + '/.env')) {
+  console.log('Configuration is not set. Please user "otp init" command first.');
+  return;
+}
+
+require('dotenv').config({ path: __dirname + '/.env' });
+
+if(!process.env.NAME && (command === 'send' || command === 'sell')) {
+  console.log('Application is not configured for send/sell operation. TBD for easy configuration.');
+  return;
+}
+
 const puppeteer = require('puppeteer');
 const Spinner = require('cli-spinner').Spinner;
 const spinner = new Spinner('processing.. %s');
@@ -9,13 +34,6 @@ const parseAccount = require('./app/parse-account');
 const send = require('./app/send');
 const sell = require('./app/sell');
 const tax = require('./app/tax');
-
-const command = process.argv[2];
-if (!command) {
-  spinner.stop(true);
-  console.log("Please provide command as the first argument");
-  return;
-}
 
 spinner.start();
 
