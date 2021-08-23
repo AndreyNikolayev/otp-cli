@@ -37,7 +37,11 @@ function addCliToPath() {
     if test -f "$FILE"; then
       echo "$FILE exists."
       grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
-      source $FILE
+      if [ "$FILE" == "${HOME}/.zshrc" ]; then
+        exec zsh
+      else
+        source $FILE
+      fi
     else
        echo "$FILE does not exist."
     fi
