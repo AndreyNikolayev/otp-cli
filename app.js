@@ -11,16 +11,21 @@ if(command === 'init') {
 }
 
 const fs = require('fs');
-
 if (!fs.existsSync(__dirname + '/.env')) {
-  console.log('Configuration is not set. Please user "otp-bank init" command first.');
+  console.log('Configuration is not set. Please use "otp init" command first.');
+  return;
+}
+
+if(command === 'init-payment') {
+  const initPayment = require('./app/init-payment');
+  initPayment();
   return;
 }
 
 require('dotenv').config({ path: __dirname + '/.env' });
 
 if(!process.env.NAME && (command === 'send' || command === 'sell')) {
-  console.log('Application is not configured for send/sell operation. TBD for easy configuration.');
+  console.log('Application is not configured for send/sell operation. Please use "otp init-payment" command first.');
   return;
 }
 

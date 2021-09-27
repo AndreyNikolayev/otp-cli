@@ -31,7 +31,7 @@ function installOtpCli() {
 }
 
 function addCliToPath() {
-  LINE='alias otp-bank="sh $HOME/.otp-cli/otp.sh"'
+  LINE='alias otp="sh $HOME/.otp-cli/otp.sh"'
   ALL_FILES=("${HOME}/.bash_profile" "${HOME}/.zshrc" "${HOME}/.bashrc", "${HOME}/.profile")
   for FILE in ${ALL_FILES[@]}; do
     if test -f "$FILE"; then

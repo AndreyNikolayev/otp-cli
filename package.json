@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "cli-spinner": "^0.2.10",
     "dotenv": "^8.2.0",
+    "envfile": "^6.17.0",
     "form-data": "^4.0.0",
     "puppeteer": "^5.5.0",
     "readline-sync": "^1.4.10"
