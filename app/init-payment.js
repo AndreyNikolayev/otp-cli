@@ -18,7 +18,7 @@ function initPayment() {
   parsedEnv.IBAN = physicalCardIBAN;
   parsedEnv.CARD_NUMBER = physicalCardNumber;
 
-  fs.writeFileSync( __dirname + '/../.env', envfile.stringifySync(parsedEnv));
+  fs.writeFileSync( __dirname + '/../.env', envfile.stringify(parsedEnv));
 }
 
 module.exports = initPayment;
