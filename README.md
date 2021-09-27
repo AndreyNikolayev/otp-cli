@@ -16,7 +16,7 @@ wget -qO- https://raw.githubusercontent.com/AndreyNikolayev/otp-cli/master/insta
 Running either of the above commands downloads a script and runs it. The script clones the nvm repository to `~/.otp-bank`, and attempts to add the source lines from the snippet below to the correct profile file (`~/.bash_profile`, `~/.zshrc`, `~/.profile`, or `~/.bashrc`).
 
 ```sh
-alias otp-bank="sh $HOME/.otp-cli/otp.sh"
+alias otp="sh $HOME/.otp-cli/otp.sh"
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ alias otp-bank="sh $HOME/.otp-cli/otp.sh"
 Use next command for the first setup or the update of the configuration
 
 ```sh
-otp-bank init
+otp init
 ```
 
 After that you will be prompted to provide all the login details for the application. Try any of the next operations in order to check whether cli is configured correctly. Otherwise, retry the **init** command
@@ -35,12 +35,12 @@ After that you will be prompted to provide all the login details for the applica
 
 #### View current balance
 ```sh
-otp-bank balance
+otp balance
 ```
 
 #### Calculate taxes for the quarter
 ```sh
-otp-bank 2021/3
+otp 2021/3
 ```
 In the example above taxes will be calculated for the 3rd quarter of the 2021 year along with the income and tax for the all 3 quarters together.
 
