@@ -55,7 +55,7 @@ const tax = require('./app/tax');
 spinner.start();
 
 async function run() {
-  const browser = await puppeteer.launch({headless: hasFlag('debug')});
+  const browser = await puppeteer.launch({headless: !hasFlag('debug')});
   const page = await browser.newPage();
   await page.goto(process.env.BANK_URL);
 
