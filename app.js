@@ -16,7 +16,11 @@ if(command === 'init') {
   return;
 }
 
-
+if(command === 'update') {
+  const update = require('./app/update');
+  update();
+  return;
+}
 
 const fs = require('fs');
 if (!fs.existsSync(__dirname + '/.env')) {
