@@ -8,7 +8,7 @@ async function login(page) {
   await page.$eval('#enter_btn', btn => btn.click());
 
   await page.waitForSelector('#select-keyFile');
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(3000);
 
   const [fileChooser] = await Promise.all([ 
     page.waitForFileChooser(),
@@ -19,20 +19,14 @@ async function login(page) {
 
   await page.$eval('input[name=keyIit_password]', (el, keyPassword) => el.value = keyPassword, process.env.KEY_PASSWORD);
 
-  await page.waitForTimeout(3000);
-
-  var isLoggedIn = false;
-  for(var i = 0; i < 3 && !isLoggedIn; i++) {
     try {
       await page.$eval('#enter_btn', btn => btn.click());
-      await page.waitForSelector('.cards-list', {timeout: i ==2 ? 30000: 5000});
-      isLoggedIn = true;
+      await page.waitForSelector('.cards-list', {timeout:  10000});
     } catch(e) {
-      if(i ==2) {
-        throw e;
-      }
+        await page.waitForFunction('initIit', {timeout: 15000});
+        await page.$eval('#enter_btn', btn => btn.click());
+        await page.waitForSelector('.cards-list', {timeout:  30000});
     }
-  }
 
 }
 
