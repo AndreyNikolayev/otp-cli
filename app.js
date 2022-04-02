@@ -1,4 +1,10 @@
-const command = process.argv[2];
+var parameters = process.argv.slice(2);
+var flags = parameters.filter(p => p.startsWith('--'));
+var commandArgs = parameters.filter(p => !p.startsWith('--'));
+
+var hasFlag = (value) => flags.indexOf(value) !== -1;
+
+const command = commandArgs[0];
 if (!command) {
   console.log("Please provide command as the first argument");
   return;
@@ -9,6 +15,8 @@ if(command === 'init') {
   init();
   return;
 }
+
+
 
 const fs = require('fs');
 if (!fs.existsSync(__dirname + '/.env')) {
@@ -43,7 +51,7 @@ const tax = require('./app/tax');
 spinner.start();
 
 async function run() {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({headless: hasFlag('debug')});
   const page = await browser.newPage();
   await page.goto(process.env.BANK_URL);
 
@@ -51,9 +59,9 @@ async function run() {
   var accounts = await parseAccount(page);
 
   var standardCommands = {
-    send: async () => await send(page, accounts, process.argv[3]),
-    sell: async () => await sell(page, accounts, process.argv[3], process.argv[4]),
-    tax: async () => await tax(page, accounts, process.argv[3])
+    send: async () => await send(page, accounts, commandArgs[1]),
+    sell: async () => await sell(page, accounts, commandArgs[1], commandArgs[2]),
+    tax: async () => await tax(page, accounts, commandArgs[1])
   };
 
   if(command === 'balance') {
