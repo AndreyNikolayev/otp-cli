@@ -25,9 +25,13 @@ async function login(page) {
   for(var i = 0; i < 3 && !isLoggedIn; i++) {
     try {
       await page.$eval('#enter_btn', btn => btn.click());
-      await page.waitForSelector('.cards-list', {timeout: 5000});
+      await page.waitForSelector('.cards-list', {timeout: i ==2 ? 30000: 5000});
       isLoggedIn = true;
-    } catch {}
+    } catch(e) {
+      if(i ==2) {
+        throw e;
+      }
+    }
   }
 
 }
