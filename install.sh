@@ -20,8 +20,8 @@ function installNode() {
 function installOtpCli() {
   rm -rf $HOME/.otp-cli-temp
   mkdir $HOME/.otp-cli-temp
-  [ -f $HOME/.otp-cli ] && mv $HOME/.otp-cli/.env $HOME/.otp-cli-temp
-  [ -f $HOME/.otp-cli ] && mv $HOME/.otp-cli/key.dat $HOME/.otp-cli-temp
+  [ -d $HOME/.otp-cli ] && mv $HOME/.otp-cli/.env $HOME/.otp-cli-temp
+  [ -d $HOME/.otp-cli ] && mv $HOME/.otp-cli/key.dat $HOME/.otp-cli-temp
   rm -rf $HOME/.otp-cli
   mkdir $HOME/.otp-cli
 
