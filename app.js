@@ -2,7 +2,7 @@ var parameters = process.argv.slice(2);
 var flags = parameters.filter(p => p.startsWith('--'));
 var commandArgs = parameters.filter(p => !p.startsWith('--'));
 
-var hasFlag = (value) => flags.indexOf(value) !== -1;
+var hasFlag = (value) => flags.indexOf(`--${value}`) !== -1;
 
 const command = commandArgs[0];
 if (!command) {
